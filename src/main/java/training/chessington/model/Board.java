@@ -41,6 +41,15 @@ public class Board {
         return board[coords.getRow()][coords.getCol()];
     }
 
+    public boolean isValidCoordinate(Coordinates coords){
+        if(coords.getRow() <=0 || coords.getRow()>=7){
+            return false;
+        }
+        if(coords.getCol() <0 || coords.getCol() >7){
+            return false;
+        }
+        return true;
+    }
     public void move(Coordinates from, Coordinates to) {
         board[to.getRow()][to.getCol()] = board[from.getRow()][from.getCol()];
         board[from.getRow()][from.getCol()] = null;
