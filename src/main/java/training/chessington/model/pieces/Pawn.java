@@ -13,6 +13,9 @@ public class Pawn extends AbstractPiece {
         super(Piece.PieceType.PAWN, colour);
     }
 
+    //set pawn direction at start as -1 or 1 for direction
+    //set initial row for 1/6
+
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
 
