@@ -18,25 +18,46 @@ public class Bishop extends AbstractPiece {
 
         ArrayList<Move> bishopMoves = new ArrayList<>();
 
-        board.get(from);
 
-        if(this.getColour() == PlayerColour.WHITE) {
-            //for white Bishops
-            Move bishopMove = getMoveBishop(from, -1, -1, board);
-            addValidMoveBishop(bishopMoves, bishopMove);
-            Move bishopMove2 = getMoveBishop(from, -1, +1, board);
-            addValidMoveBishop(bishopMoves, bishopMove2);
+        boolean upAndLeftBlocked = false;
+        boolean upAndRightBlocked = false;
+        boolean downAndLeftBlocked = false;
+        boolean downAndRightBlocked= false;
+            for (int i = 1, j = 1; i < 8 && j < 8; i++, j++) {
+                upAndLeftBlocked = diagonalBlockCheck(from, board, bishopMoves, upAndLeftBlocked, -i, -j);
+                upAndRightBlocked = diagonalBlockCheck(from,board, bishopMoves,upAndRightBlocked,-i, +j );
+                downAndLeftBlocked = diagonalBlockCheck(from,board, bishopMoves, downAndLeftBlocked, i, -j);
+                downAndRightBlocked= diagonalBlockCheck(from,board, bishopMoves, downAndRightBlocked, i, j);
 
-        }
-        else{
-            Move bishopMove = getMoveBishop(from, +1, -1, board);
-            addValidMoveBishop(bishopMoves, bishopMove);
-            Move bishopMove2 = getMoveBishop(from, +1, +1, board);
-            addValidMoveBishop(bishopMoves, bishopMove2);
-
-        }
+                }
         return bishopMoves;
+        }
+
+    private boolean diagonalBlockCheck(Coordinates from, Board board, ArrayList<Move> bishopMoves, boolean blocked, int i, int j) {
+        if(!blocked) {
+            {
+
+                Coordinates to = new Coordinates(from.getRow() + i, from.getCol() + j);
+                if(!board.isValidCoordinate(to)){
+                    return blocked;
+                }
+                Piece piece = board.get(to);
+                if (piece == null) {
+                    Move bishopMove = getMoveBishop(from, +i, +j, board);
+                    addValidMoveBishop(bishopMoves, bishopMove);
+                } else if (piece.getColour().equals(colour)) {
+                    blocked = true;
+                } else {
+                    Move bishopMove = getMoveBishop(from, +i, +j, board);
+                    addValidMoveBishop(bishopMoves, bishopMove);
+                    blocked = true;
+                }
+
+            }
+        }
+        return blocked;
     }
+
 
     private void addValidMoveBishop(ArrayList<Move> bishopMoves, Move bishopMove) {
         if (bishopMove != null) {
@@ -48,17 +69,14 @@ public class Bishop extends AbstractPiece {
         int fromRow = from.getRow() + numberRows;
         int fromColumn = from.getCol() + numberCols;
         Coordinates to = new Coordinates(fromRow, fromColumn);
-        if (board.isValidCoordinate(to) == true) {
+        if (board.isValidCoordinate(to)) {
+            Piece p = board.get(to);
 
-
-            Piece b = board.get(to);
-
-            if (b.getColour() != this.getColour()) {
+            if(board.get(to) == null || p.getColour() != this.getColour() ) {
                 return new Move(from, to);
             } else {
                 return null;
             }
-
 
         }
         else{

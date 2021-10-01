@@ -115,7 +115,7 @@ public class Pawn extends AbstractPiece {
         int fromRow = from.getRow() + numberRows;
         int fromColumn = from.getCol() + numberCols;
         Coordinates to = new Coordinates(fromRow, fromColumn);
-        if(board.isValidCoordinate(to) == true) {
+        if(board.isValidCoordinate(to)) {
 
 
             Piece p = board.get(to);
