@@ -42,7 +42,7 @@ public class Board {
     }
 
     public boolean isValidCoordinate(Coordinates coords){
-        if(coords.getRow() <=0 || coords.getRow()>=7){
+        if(coords.getRow() <0 || coords.getRow()>7){
             return false;
         }
         if(coords.getCol() <0 || coords.getCol() >7){
